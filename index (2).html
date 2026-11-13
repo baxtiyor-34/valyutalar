@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jahon valyutalari</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--text:#1b2140;--muted:#667090;--accent:#4f6bff;--accent2:#8a5cff;--line:#e3e7f3;--shadow:0 6px 24px rgba(40,60,140,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1220;--card:#181c33;--text:#eef0ff;--muted:#9aa3c7;--accent:#7b8cff;--accent2:#b18cff;--line:#272c4d;--shadow:0 6px 24px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1220;--card:#181c33;--text:#eef0ff;--muted:#9aa3c7;--accent:#7b8cff;--accent2:#b18cff;--line:#272c4d;--shadow:0 6px 24px rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+.wrap{max-width:1280px;margin:0 auto;padding:clamp(18px,3vw,40px) clamp(14px,3vw,32px) 48px}
+header{display:flex;align-items:center;gap:16px;margin-bottom:28px;animation:fadeDown .7s 2s ease both}
+.logo{width:clamp(52px,6vw,76px);height:clamp(52px,6vw,76px);flex:none;transform-origin:50% 90%;animation:wiggle 2.4s ease-in-out infinite}
+.logo svg{width:100%;height:100%;display:block;overflow:visible}
+header h1{margin:0;font-size:clamp(22px,4vw,32px);line-height:1.15}
+header p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.badge{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;margin-bottom:4px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,28px)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,2vw,24px);box-shadow:var(--shadow);opacity:0;transform:translateY(28px) scale(.97);transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
+.card.show{opacity:1;transform:none;animation:pop .8s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+.card.show .b1{animation:fan1 .9s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--d,0s) + .35s)}
+.card.show .b2{animation:fan2 .9s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--d,0s) + .2s)}
+.shine{position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-15deg);animation:shine 4.5s ease-in-out infinite;animation-delay:var(--d,0s);z-index:2;pointer-events:none}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(circle at 20% 20%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 40%),radial-gradient(circle at 80% 70%,color-mix(in srgb,var(--accent2) 18%,transparent),transparent 40%);animation:drift 14s ease-in-out infinite alternate}
+.tools{display:flex;align-items:center;gap:12px;margin-bottom:22px;animation:fadeDown .7s 2.15s ease both}
+.tools input{flex:1;min-width:0;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
+.tools input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+#cnt{flex:none;font-size:13px;font-weight:700;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);padding:8px 14px;border-radius:99px}
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(circle at 50% 40%,#3a3f9c,#12162e 70%);color:#fff;overflow:hidden;animation:splashOut .6s 2.1s ease forwards}
+#fl{position:absolute;inset:0}
+#splash .sl{width:96px;height:96px;animation:logoIn .8s cubic-bezier(.2,.8,.2,1) both}
+#splash .sl svg{width:100%;height:100%;overflow:visible;transform-origin:50% 90%;animation:wiggle 1.6s ease-in-out infinite}
+#splash h2{margin:0;font-size:clamp(24px,5vw,38px);animation:logoIn .8s .3s cubic-bezier(.2,.8,.2,1) both}
+#splash .bar{width:min(220px,60vw);height:5px;border-radius:9px;background:rgba(255,255,255,.2);overflow:hidden;animation:logoIn .8s .5s both}
+#splash .bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#7b8cff,#ffb84d);transform-origin:left;animation:load 1.9s .1s ease-in-out both}
+#splash .f{position:absolute;bottom:-50px;font-weight:800;opacity:0;animation:rise var(--t,3s) var(--dl,0s) ease-in infinite}
+@keyframes splashOut{to{opacity:0;visibility:hidden;transform:scale(1.06)}}
+@keyframes logoIn{from{opacity:0;transform:translateY(24px) scale(.8)}}
+@keyframes load{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.7}100%{transform:translateY(-115vh) rotate(40deg);opacity:0}}
+.card.hide{display:none}
+.card:hover{transform:translateY(-6px) perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));border-color:var(--accent);box-shadow:0 14px 34px rgba(79,107,255,.22)}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.flag{font-size:38px;line-height:1;transition:transform .3s}
+.card:hover .flag{transform:rotate(-8deg) scale(1.15)}
+.code{font-weight:700;font-size:13px;letter-spacing:.08em;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);padding:4px 10px;border-radius:8px}
+.note{position:relative;height:92px;border-radius:12px;margin-bottom:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 3px rgba(255,255,255,.35),0 4px 12px rgba(0,0,0,.18);transition:transform .35s ease}
+.note::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.1) 0 6px,transparent 6px 12px)}
+.note .ring{position:absolute;width:74px;height:74px;border-radius:50%;border:3px solid rgba(255,255,255,.55);background:rgba(255,255,255,.12)}
+.note .sym{position:relative;font-size:34px;font-weight:800;text-shadow:0 2px 6px rgba(0,0,0,.3)}
+.note .corner{position:absolute;top:8px;left:12px;font-size:12px;font-weight:700;letter-spacing:.1em;opacity:.9}
+.note .corner.r{left:auto;right:12px;top:auto;bottom:8px}
+.card:hover .note{transform:rotate(-2deg) scale(1.03)}
+.money{position:relative;height:120px;margin-bottom:14px}
+.bill{position:absolute;left:4px;right:4px;height:90px;border-radius:7px;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 3px 8px rgba(0,0,0,.2);transition:transform .35s ease}
+.b1{top:0;transform:rotate(-4deg);opacity:.5}
+.b2{top:10px;transform:rotate(3deg);opacity:.75}
+.b3{top:22px;overflow:hidden;color:#fff;box-shadow:0 6px 14px rgba(0,0,0,.3)}
+.b3::before{content:"";position:absolute;inset:5px;border:2px solid rgba(255,255,255,.55);border-radius:4px}
+.b3::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.09) 0 3px,transparent 3px 8px)}
+.por{position:absolute;left:14px;top:50%;width:38px;height:54px;margin-top:-27px;border-radius:50%;border:2px solid rgba(255,255,255,.6);background:radial-gradient(circle at 50% 36%,rgba(255,255,255,.75) 0 8px,transparent 9px),radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.75) 0 15px,transparent 16px),rgba(255,255,255,.18);z-index:1}
+.den{position:absolute;left:14px;right:48px;top:50%;transform:translateY(-50%);text-align:center;font-size:26px;font-weight:800;white-space:nowrap;text-shadow:0 2px 5px rgba(0,0,0,.3);z-index:1}
+.den small{font-size:15px;font-weight:700;margin-left:3px;opacity:.9}
+.seal{position:absolute;right:13px;top:50%;width:28px;height:28px;margin-top:-14px;border-radius:50%;border:2px solid rgba(255,255,255,.65);background:rgba(255,255,255,.18);z-index:1}
+.bcode{position:absolute;top:9px;right:14px;font-size:10px;font-weight:700;letter-spacing:.1em;z-index:1}
+.ser{position:absolute;left:18px;bottom:9px;font-size:9px;letter-spacing:.14em;opacity:.85;z-index:1}
+.card:hover .b1{transform:rotate(-8deg) translate(-6px,2px)}
+.card:hover .b2{transform:rotate(6deg) translate(6px,0)}
+.card:hover .b3{transform:translateY(-5px)}
+.card h2{margin:0 0 2px;font-size:clamp(16px,1.6vw,20px)}
+.country{margin:0 0 8px;color:var(--accent2);font-size:13px;font-weight:600}
+.desc{margin:0;color:var(--muted);font-size:14px}
+@keyframes pop{0%{opacity:0;transform:translateY(46px) scale(.9) rotate(-2deg)}60%{opacity:1;transform:translateY(-6px) scale(1.02)}100%{opacity:1;transform:none}}
+@keyframes fan1{from{transform:rotate(0) translateY(16px);opacity:0}}
+@keyframes fan2{from{transform:rotate(0) translateY(10px);opacity:0}}
+@keyframes shine{0%,55%{left:-60%}100%{left:140%}}
+@keyframes drift{from{transform:translate(-3%,-2%) scale(1)}to{transform:translate(3%,2%) scale(1.08)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes wiggle{0%,100%{transform:rotate(0) translateY(0)}20%{transform:rotate(-9deg) translateY(-4px)}40%{transform:rotate(8deg) translateY(0)}60%{transform:rotate(-5deg) translateY(-3px)}80%{transform:rotate(3deg) translateY(0)}}
+@media (max-width:991px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:575px){.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.shine,body::before{animation:none}.logo{animation:none}.card{opacity:1;transform:none}.card.show{animation:none}}
+</style>
+</head>
+<body>
+<div id="splash" aria-hidden="true">
+  <div id="fl"></div>
+  <div class="sl"><svg viewBox="0 0 64 64"><rect x="8" y="14" width="40" height="40" rx="8" fill="#7b8cff"/><rect x="14" y="20" width="28" height="4" rx="2" fill="#fff" opacity=".9"/><rect x="14" y="29" width="22" height="4" rx="2" fill="#fff" opacity=".7"/><rect x="14" y="38" width="16" height="4" rx="2" fill="#fff" opacity=".5"/><path d="M40 52 L54 18 L60 21 L46 55 Z" fill="#ffb84d"/><path d="M40 52 L46 55 L38 58 Z" fill="#fff"/></svg></div>
+  <h2>Jahon valyutalari</h2>
+  <div class="bar"><i></i></div>
+</div>
+<div class="wrap">
+  <header>
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><rect x="8" y="14" width="40" height="40" rx="8" fill="#4f6bff"/><rect x="14" y="20" width="28" height="4" rx="2" fill="#fff" opacity=".9"/><rect x="14" y="29" width="22" height="4" rx="2" fill="#fff" opacity=".7"/><rect x="14" y="38" width="16" height="4" rx="2" fill="#fff" opacity=".5"/><path d="M40 52 L54 18 L60 21 L46 55 Z" fill="#ffb84d"/><path d="M40 52 L46 55 L38 58 Z" fill="#2b2f4a"/></svg>
+    </div>
+    <div>
+      <span class="badge">Uyga vazifa</span>
+      <h1>Jahon valyutalari</h1>
+      <p>12 ta mashhur xorijiy valyuta: davlati va qisqacha tavsifi</p>
+    </div>
+  </header>
+  <div class="tools"><input id="q" type="search" placeholder="Valyutani qidiring… (masalan: dollar, Yaponiya)" autocomplete="off"><span id="cnt">12 ta</span></div>
+  <main class="grid" id="grid"></main>
+</div>
+<script>
+const data=[
+["🇺🇸","USD","AQSH dollari","Qo‘shma Shtatlar","Dunyodagi asosiy zaxira valyuta. Xalqaro savdo va neft narxlarining ko‘p qismi shu valyutada olib boriladi."],
+["🇪🇺","EUR","Yevro","Yevropa Ittifoqi (Yevrozona)","20 ga yaqin davlat ishlatadigan umumiy valyuta. Dollardan keyin ikkinchi eng ko‘p zaxira valyuta."],
+["🇬🇧","GBP","Funt sterling","Buyuk Britaniya","Dunyodagi eng qadimiy hamon ishlatilayotgan valyutalardan biri. Odatda qiymati dollar va yevrodan yuqori."],
+["🇯🇵","JPY","Yaponiya iyenasi","Yaponiya","Osiyoning asosiy zaxira valyutasi. Barqaror hisoblanadi, shuning uchun xavfsiz “panoh” sifatida ko‘riladi."],
+["🇰🇷","KRW","Koreya voni","Janubiy Koreya","Texnologiya va eksport kuchli bo‘lgan iqtisodiyot valyutasi. Narxlar odatda minglab von bilan ifodalanadi."],
+["🇷🇺","RUB","Rossiya rubli","Rossiya","Neft va gaz eksportiga bog‘liq valyuta. Kursi tashqi omillarga sezilarli darajada ta’sirlanadi."],
+["🇨🇳","CNY","Xitoy yuani","Xitoy","Dunyoning yirik ikkinchi iqtisodiyoti valyutasi. Xalqaro hisob-kitoblarda ulushi tobora o‘sib bormoqda."],
+["🇨🇭","CHF","Shveysariya franki","Shveytsariya","Siyosiy va moliyaviy barqarorligi bilan mashhur. Inflyatsiya va inqirozlarda ishonchli valyuta sanaladi."],
+["🇦🇪","AED","BAA dirhami","Birlashgan Arab Amirliklari","Dollarga qat’iy bog‘langan valyuta. Dubay va Abu-Dabi orqali savdo va turizmda keng qo‘llanadi."],
+["🇹🇷","TRY","Turkiya lirasi","Turkiya","Turkiyaning milliy valyutasi. Yuqori inflyatsiya sababli kursi tez-tez o‘zgarib turadi."],
+["🇨🇦","CAD","Kanada dollari","Kanada","Neft, gaz va xomashyo narxlariga bog‘liq. “Luni” nomi bilan ham tanilgan."],
+["🇰🇿","KZT","Qozog‘iston tengesi","Qozog‘iston","Markaziy Osiyodagi yirik iqtisodiyot valyutasi. Neft narxi va tashqi savdo kursiga ta’sir qiladi."]
+];
+const look={USD:['$','#2e7d4f','#7fc79a'],EUR:['€','#3a5bd9','#8fa6ff'],GBP:['£','#6b3fa0','#c3a1ee'],JPY:['¥','#c0504d','#f2b3a8'],KRW:['₩','#2f6f9a','#9fc8e8'],RUB:['₽','#5a7fb5','#b9cde8'],CNY:['元','#c62f2f','#f19a8e'],CHF:['Fr','#d33a3a','#f4b6b6'],AED:['د.إ','#8a6d3b','#e3cf9c'],TRY:['₺','#3e8e8a','#a6e0db'],CAD:['C$','#d9822b','#f6cf9b'],KZT:['₸','#2aa6c9','#a6e3f2']};
+const den={USD:100,EUR:50,GBP:20,JPY:'10 000',KRW:'50 000',RUB:'1 000',CNY:100,CHF:100,AED:100,TRY:200,CAD:20,KZT:'5 000'};
+const grid=document.getElementById('grid');
+const fl=document.getElementById('fl');
+['$','€','£','¥','₩','₽','元','₺','₸','Fr','$','€','£','¥','₩','₽'].forEach(s=>{const e=document.createElement('span');e.className='f';e.textContent=s;e.style.left=(4+Math.random()*92)+'%';e.style.fontSize=(22+Math.random()*30)+'px';e.style.setProperty('--t',(2.4+Math.random()*1.6)+'s');e.style.setProperty('--dl',(Math.random()*1.4)+'s');fl.appendChild(e)});
+data.forEach((c,i)=>{
+  const el=document.createElement('article');
+  el.className='card';
+  el.style.setProperty('--d',(i%3)*0.1+'s');
+  const v=look[c[1]];
+  el.style.setProperty('--c1',v[1]);el.style.setProperty('--c2',v[2]);
+  el.innerHTML='<div class="money"><div class="bill b1"></div><div class="bill b2"></div><div class="bill b3"><span class="den">'+den[c[1]]+'<small>'+v[0]+'</small></span><span class="seal"></span><span class="bcode">'+c[1]+'</span><span class="ser">AA 0'+(1234+i*377)+' 7</span><span class="shine"></span></div></div><div class="top"><span class="flag">'+c[0]+'</span><span class="code">'+c[1]+'</span></div><h2>'+c[2]+'</h2><p class="country">'+c[3]+'</p><p class="desc">'+c[4]+'</p>';
+  grid.appendChild(el);
+});
+const cards=document.querySelectorAll('.card');
+const q=document.getElementById('q'),cnt=document.getElementById('cnt');
+q.addEventListener('input',()=>{
+  const s=q.value.trim().toLowerCase();let n=0;
+  cards.forEach(c=>{const ok=!s||c.textContent.toLowerCase().includes(s);c.classList.toggle('hide',!ok);if(ok){n++;c.classList.add('show')}});
+  cnt.textContent=n?n+' ta':'topilmadi';
+});
+function burst(e,card){
+  const sym=card.querySelector('.den small').textContent,col=card.style.getPropertyValue('--c1');
+  for(let i=0;i<22;i++){
+    const s=document.createElement('span');s.textContent=i%3?sym:card.querySelector('.flag').textContent;
+    s.style.cssText='position:fixed;left:'+e.clientX+'px;top:'+e.clientY+'px;z-index:50;pointer-events:none;font-weight:800;color:'+col+';font-size:'+(16+Math.random()*22)+'px;text-shadow:0 2px 6px rgba(0,0,0,.25)';
+    document.body.appendChild(s);
+    const a=Math.random()*Math.PI*2,d=70+Math.random()*130,dx=Math.cos(a)*d,dy=Math.sin(a)*d-60,r=(Math.random()-.5)*540;
+    s.animate([{transform:'translate(-50%,-50%) scale(.3)',opacity:1},{transform:'translate('+dx+'px,'+dy+'px) rotate('+r+'deg) scale(1.2)',opacity:1,offset:.55},{transform:'translate('+dx*1.2+'px,'+(dy+170)+'px) rotate('+r*1.5+'deg) scale(.8)',opacity:0}],{duration:1100+Math.random()*600,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish=()=>s.remove();
+  }
+  card.querySelector('.b3').animate([{transform:'translateY(0) scale(1)'},{transform:'translateY(-14px) scale(1.06) rotate(-2deg)'},{transform:'translateY(0) scale(1)'}],{duration:450,easing:'ease-out'});
+}
+cards.forEach(card=>{
+  card.addEventListener('pointermove',e=>{
+    if(e.pointerType==='touch')return;
+    const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    card.style.setProperty('--ry',(x*14)+'deg');card.style.setProperty('--rx',(-y*14)+'deg');
+  });
+  card.addEventListener('pointerleave',()=>{card.style.setProperty('--rx','0deg');card.style.setProperty('--ry','0deg')});
+  card.addEventListener('click',e=>{
+    burst(e,card);
+    const t=card.querySelector('.den').firstChild;
+    t.textContent=(parseInt(t.textContent.replace(/\s/g,''),10)+100).toLocaleString('ru-RU');
+  });
+  card.style.cursor='pointer';
+});
+try{
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.15});
+  setTimeout(()=>cards.forEach(c=>io.observe(c)),2300);
+}catch(e){cards.forEach(c=>c.classList.add('show'))}
+function resetAll(){
+  cards.forEach(c=>{c.querySelector('.den').firstChild.textContent=den[c.querySelector('.bcode').textContent]});
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)resetAll()});
+window.addEventListener('pagehide',resetAll);
+</script>
+</body>
+</html>
